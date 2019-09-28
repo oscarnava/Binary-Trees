@@ -69,9 +69,13 @@ class BinaryTree
 
   protected
 
+  # left & right nodes will only be accessible internally.
+
   attr_accessor :left, :right
 
   private
+
+  # Auxiliar methods
 
   def max(first, second)
     first > second ? first : second
