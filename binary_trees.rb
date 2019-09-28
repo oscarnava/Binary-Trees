@@ -67,6 +67,17 @@ class BinaryTree
     end
   end
 
+  def slice(slices = [], depth = 0)
+    slices[depth] = slices[depth].to_a << data
+    @left&.slice(slices, depth + 1)
+    @right&.slice(slices, depth + 1)
+    slices
+  end
+
+  def bfs
+    slice.flatten
+  end
+
   protected
 
   # left & right nodes will only be accessible internally.
