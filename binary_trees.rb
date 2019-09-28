@@ -1,5 +1,11 @@
 # frozen_string_literal: true
 
+LT = '╭'
+CO = '─'
+MD = '┴'
+RT = '╮'
+SP = ' '
+
 class BinaryTree
   include Enumerable
 
@@ -57,6 +63,8 @@ class BinaryTree
     end
   end
 
+  alias dfs pre_order
+
   def post_order(&block)
     if block_given?
       @left&.post_order(&block)
@@ -68,14 +76,45 @@ class BinaryTree
   end
 
   def slice(slices = [], depth = 0)
-    slices[depth] = slices[depth].to_a << data
     @left&.slice(slices, depth + 1)
     @right&.slice(slices, depth + 1)
-    slices
+    slices.tap { |s| s[depth] = s[depth].to_a << data }
   end
 
   def bfs
     slice.flatten
+  end
+
+  def to_s
+    rows = slice.reverse
+
+    lines = []
+    rows.each_with_index do |row, level|
+      row.map { |v| v || 'ø' }
+      lt_spc = 2**level - 1
+      in_spc = SP * (2**(level + 1) - 1)
+      lt_mgn = SP * lt_spc
+      cnctor = LT + (CO * lt_spc) + MD + (CO * lt_spc) + RT
+      cnc_ct = row.size / 2
+      lines << lt_mgn + row.join(in_spc)
+      lines << lt_mgn + (cnctor + in_spc) * (cnc_ct) if cnc_ct.positive?
+    end
+
+    lines.reverse.join("\n")
+
+    #    4
+    #  ╭─┴─╮
+    #  2   6
+    # ╭┴╮ ╭┴╮
+    # 1 3 5 7
+
+    # "⋅⋅⋅⋅⋅⋅⋅F"
+    # "⋅⋅⋅╭───┴───╮"
+    # "⋅⋅⋅4⋅⋅⋅⋅⋅⋅⋅E\n" +
+    # "⋅╭─┴─╮⋅⋅⋅╭─┴─╮\n" +
+    # "⋅2⋅⋅⋅6⋅⋅⋅C⋅⋅⋅D\n" +
+    # "╭┴╮⋅╭┴╮⋅╭┴╮⋅╭┴╮\n" +
+    # "1⋅3⋅5⋅7⋅8⋅9⋅A⋅B\n"
   end
 
   protected
@@ -93,7 +132,7 @@ class BinaryTree
   end
 
   def array_to_tree(array, idx)
-    return nil if idx >= array.length || array[idx].zero?
+    return nil if idx >= array.length || array[idx] == 0 # rubocop:disable Style/NumericPredicate
 
     BinaryTree.new(array[idx]).tap do |node|
       node.left = array_to_tree(array, 2 * idx + 1)
