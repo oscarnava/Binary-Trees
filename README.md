@@ -76,6 +76,20 @@ end
 => | 1 | 3 | 2 | 5 | 7 | 6 | 4
 ```
 - - -
+### to_s
+Will display the tree as a graphic representation. Current version only works with complete balanced trees.
+```ruby
+root.to_s
+=>
+     4
+  ╭─┴─╮
+  2    6
+╭┴╮ ╭┴╮
+1  3  5  7
+
+```
+
+
 ### Enumerable capabilities
 It also extends ___Enumerable___, so you can use any Enumerable method on the tree:
 ```ruby
