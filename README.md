@@ -84,7 +84,7 @@ root.slice
 ```
 - - -
 ### bfs
-Will return an array with each element ordered in a Breadth-first order. This is the saame order accepted by the ___new___ constructor.
+Will return an array with each element ordered in a Breadth-first order. This is the same order accepted by the ___new___ constructor.
 ```ruby
 root.bfs
 => [4, 2, 6, 1, 3, 5, 7]
