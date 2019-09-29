@@ -1,6 +1,6 @@
 # [Binary Trees](https://en.wikipedia.org/wiki/Binary_tree) implementation in Ruby
 
-Author: [Oscar Nava](https://github.com/oscarnava)
+Author: [___Oscar Nava Trujillo___ aka. ___Monstruo___](https://github.com/oscarnava)
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Binary_tree.svg" width="38.196601125%" align="right">
 
@@ -76,6 +76,27 @@ end
 => | 1 | 3 | 2 | 5 | 7 | 6 | 4
 ```
 - - -
+### slice
+Will return an array of arrays, each one containing the nodes at level N+1.
+```ruby
+root.slice
+=> [[4], [2, 6], [1, 3, 5, 7]]
+```
+- - -
+### bfs
+Will return an array with each element ordered in a Breadth-first order. This is the saame order accepted by the ___new___ constructor.
+```ruby
+root.bfs
+=> [4, 2, 6, 1, 3, 5, 7]
+```
+- - -
+### dfs
+Will return an array with each element ordered in a Depth-first order. This is just an alias for the ___pre_order___ method.
+```ruby
+root.dfs
+=> [4, 2, 1, 3, 6, 5, 7]
+```
+- - -
 ### to_s
 Will display the tree as a graphic representation. Current version only works with complete balanced trees.
 ```ruby
@@ -86,9 +107,8 @@ root.to_s
   2    6
 ╭┴╮ ╭┴╮
 1  3  5  7
-
 ```
-
+- - -
 
 ### Enumerable capabilities
 It also extends ___Enumerable___, so you can use any Enumerable method on the tree:
@@ -102,6 +122,6 @@ root.sum
 
 
 ## TODO's
-* Create a **to_s** method that will display the tree as an ASCII diagram.
-* Push and Pop methods to insert or remove items (in order)
+* Create a **to_s** method that will display the tree as an ASCII diagram. (In progress)
+* Push and Pop methods to insert or remove items in order.
 * A method to balance the tree.
