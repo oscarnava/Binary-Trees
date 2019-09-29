@@ -86,7 +86,7 @@ class BinaryTree
     slice.flatten
   end
 
-  def serialize(values = Array.new(2**height - 1), offset = 0, depth = 0)
+  def serialize(values = Array.new(2**height - 1), offset = 0)
     values[offset] = data
     @left&.serialize(values, offset * 2 + 1)
     @right&.serialize(values, offset * 2 + 2)
@@ -105,7 +105,7 @@ class BinaryTree
       lt_spc = 2**level - 1
       in_spc = SP * (2**(level + 1) - 1)
       lt_mgn = SP * lt_spc
-      hz_lin = CO * lt_spc 
+      hz_lin = CO * lt_spc
       lines << lt_mgn + row.map { |v| v || ' ' }.join(in_spc)
 
       connectors = ''
@@ -161,7 +161,7 @@ class BinaryTree
   end
 
   def array_to_tree(array, idx)
-    return nil if idx >= array.length || array[idx] == 0 # rubocop:disable Style/NumericPredicate
+    return nil if idx >= array.length || [0, nil].include?(array[idx])
 
     BinaryTree.new(array[idx]).tap do |node|
       node.left = array_to_tree(array, 2 * idx + 1)

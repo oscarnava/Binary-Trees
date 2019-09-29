@@ -6,47 +6,46 @@ def run_all(array)
 
   tree = BinaryTree.new array
 
-  # p tree.slice
-  # p tree.bfs
-
-  # puts "\n\nHeight: #{tree.height}"
-  puts "Balanced: #{tree.balanced?}"
-  # puts "Ordered: #{tree.ordered?}"
+  p tree.slice
+  p tree.bfs
 
   p tree.serialize
 
-  puts "\n#{tree}"
+  puts "\n#{tree}\n\n"
 
-  # tree.tap do |root|
-  #   puts "Tree to Array (Pre-Order) : #{root.pre_order}"
-  #   puts "Tree to Array (In-Order)  : #{root.to_a}"
-  #   puts "Tree to Array (Post-Order): #{root.post_order}"
-  # end
+  tree.tap do |root|
+    puts "Tree to Array (Pre-Order) : #{root.pre_order}"
+    puts "Tree to Array (In-Order)  : #{root.to_a}"
+    puts "Tree to Array (Post-Order): #{root.post_order}"
+  end
 
-  # print "\nPre-Order : "
-  # tree.pre_order do |data|
-  #   print "| #{data} "
-  # end
+  print "\nPre-Order : "
+  tree.pre_order do |data|
+    print "| #{data} "
+  end
 
-  # print "\nIn-Order  : "
-  # tree.in_order { |data| print "| #{data} " }
+  print "\nIn-Order  : "
+  tree.in_order { |data| print "| #{data} " }
 
-  # print "\nPost-Order: "
-  # tree.post_order do |data|
-  #   print "| #{data} "
-  # end
+  print "\nPost-Order: "
+  tree.post_order do |data|
+    print "| #{data} "
+  end
 
-  # puts "\n\nHeight: #{tree.height}"
-  # puts "Balanced: #{tree.balanced?}"
-  # puts "Ordered: #{tree.ordered?}"
+  begin
+    puts "\n\nHeight: #{tree.height}"
+    puts "Balanced: #{tree.balanced?}"
+    puts "Ordered: #{tree.ordered?}"
+    puts "\n~~~~~~~~~~~~~~~~~~"
+    print 'Map: '
+    p(tree.map { |data| Math.sqrt(data).round(3) })
+    puts '~~~~'
+    print 'Sum: '
+    p tree.sum
+    puts '~~~~'
+  rescue
+  end
 
-  # puts "\n~~~~~~~~~~~~~~~~~~"
-  # print 'Map: '
-  # p(tree.map { |data| Math.sqrt(data).round(3) })
-  # puts '~~~~'
-  # print 'Sum: '
-  # p tree.sum
-  # puts '~~~~'
 end
 
 run_all [10, 4, 12]
