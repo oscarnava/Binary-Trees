@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
-LT = '╭'
+RD = '╭'
 CO = '─'
 MD = '┴'
-RT = '╮'
+LD = '╮'
 SP = ' '
-
+LU = '└'
+RU = '┘'
 class BinaryTree
   include Enumerable
 
@@ -85,19 +86,47 @@ class BinaryTree
     slice.flatten
   end
 
-  def to_s
-    rows = slice.reverse
+  def serialize(values = Array.new(2**height - 1), offset = 0, depth = 0)
+    values[offset] = data
+    @left&.serialize(values, offset * 2 + 1)
+    @right&.serialize(values, offset * 2 + 2)
+    values
+  end
 
+  def to_s
+    rows = serialize
+
+    hgth = height
+    size = 2**(hgth - 1)
     lines = []
-    rows.each_with_index do |row, level|
-      row.map { |v| v || 'ø' }
+    hgth.times do |level|
+      row = rows[size - 1...2 * size - 1]
+      # warn "Size: #{size}, Row: #{row}"
       lt_spc = 2**level - 1
       in_spc = SP * (2**(level + 1) - 1)
       lt_mgn = SP * lt_spc
-      cnctor = LT + (CO * lt_spc) + MD + (CO * lt_spc) + RT
-      cnc_ct = row.size / 2
-      lines << lt_mgn + row.join(in_spc)
-      lines << lt_mgn + (cnctor + in_spc) * (cnc_ct) if cnc_ct.positive?
+      hz_lin = CO * lt_spc 
+      lines << lt_mgn + row.map { |v| v || ' ' }.join(in_spc)
+
+      connectors = ''
+      (size / 2).times do |idx|
+        left = row[idx * 2]
+        right = row[idx * 2 + 1]
+        cnctor = if left.nil? && right.nil?
+                   SP * (3 + 2 * lt_spc)
+                 elsif left.nil?
+                   SP * (1 + lt_spc) + LU + hz_lin + LD
+                 elsif right.nil?
+                   RD + hz_lin + RU + SP * (lt_spc + 1)
+                 else
+                   RD + hz_lin + MD + hz_lin + LD
+                 end
+        connectors += cnctor + in_spc
+      end
+
+      lines << lt_mgn + connectors
+
+      size /= 2
     end
 
     lines.reverse.join("\n")
